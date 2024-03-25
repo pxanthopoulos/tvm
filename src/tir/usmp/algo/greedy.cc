@@ -66,6 +66,8 @@ bool GreedyBase::IsValidPlacement(const PoolInfo& candidate_pool, const size_t& 
     size_hint_bytes = p->size_hint_bytes;
   } else if (const auto* p = candidate_pool.as<ConstantPoolInfoNode>()) {
     size_hint_bytes = p->size_hint_bytes;
+  } else if (const auto* p = candidate_pool.as<PoolInfoNode>()) {
+    size_hint_bytes = p->size_hint_bytes;
   } else {
     LOG(FATAL) << "Pool '" << candidate_pool->GetTypeKey() << "' is not supported";
   }

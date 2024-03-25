@@ -131,7 +131,7 @@ static const int kUnknownWriteBandwidth = -1;
 
 /*! \brief Base class for WorkspacePoolInfo and ConstantPoolInfo */
 class PoolInfo : public ObjectRef {
- protected:
+ public:
   TVM_DLL PoolInfo(String pool_name, Integer size_hint_bytes = kUnrestrictedPoolSizeHint,
                    Integer clock_frequency_hz = kUnknownClockFrequency,
                    Integer read_bandwidth_bytes_per_cycle = kUnknownReadBandwidth,

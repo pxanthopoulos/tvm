@@ -639,7 +639,8 @@ class Integer : public IntImm {
   /*!
    * \brief Construct integer from int value.
    */
-  Integer(int value, Span span = Span()) : IntImm(DataType::Int(32), value, span) {}  // NOLINT(*)
+  Integer(int64_t value, Span span = Span())
+      : IntImm(DataType::Int(64), value, span) {}  // NOLINT(*)
   /*!
    * \brief Construct integer from int imm.
    * \param other The other value.
@@ -671,18 +672,18 @@ class Integer : public IntImm {
     return (*this)->value;
   }
   // comparators
-  Bool operator==(int other) const {
+  Bool operator==(int64_t other) const {
     if (data_ == nullptr) return Bool(false);
     return Bool((*this)->value == other);
   }
-  Bool operator!=(int other) const { return !(*this == other); }
+  Bool operator!=(int64_t other) const { return !(*this == other); }
   template <typename Enum, typename = typename std::enable_if<std::is_enum<Enum>::value>::type>
   Bool operator==(Enum other) const {
-    return *this == static_cast<int>(other);
+    return *this == static_cast<int64_t>(other);
   }
   template <typename Enum, typename = typename std::enable_if<std::is_enum<Enum>::value>::type>
   Bool operator!=(Enum other) const {
-    return *this != static_cast<int>(other);
+    return *this != static_cast<int64_t>(other);
   }
 };
 
@@ -749,8 +750,8 @@ class Range : public ObjectRef {
 // implementations
 inline const Type& RelayExprNode::checked_type() const {
   ICHECK(checked_type_.defined()) << "internal error: the type checker has "
-                                  << "not populated the checked_type "
-                                  << "field for " << GetRef<RelayExpr>(this);
+                                  << "not populated the checked_type " << "field for "
+                                  << GetRef<RelayExpr>(this);
   return this->checked_type_;
 }
 

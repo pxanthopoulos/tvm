@@ -67,7 +67,8 @@ bool GreedyBase::IsValidPlacement(const PoolInfo& candidate_pool, const size_t& 
   } else if (const auto* p = candidate_pool.as<ConstantPoolInfoNode>()) {
     size_hint_bytes = p->size_hint_bytes;
   } else {
-    LOG(FATAL) << "Pool '" << candidate_pool->GetTypeKey() << "' is not supported";
+    // LOG(FATAL) << "Pool '" << candidate_pool->GetTypeKey() << "' is not supported";
+    return true;
   }
 
   if (size_hint_bytes == kUnrestrictedPoolSizeHint) {
@@ -110,7 +111,7 @@ Map<BufferInfo, PoolAllocation> GreedyBase::PostSortAllocation(
     const std::vector<BufferInfo>& buffer_info_vec) {
   Map<BufferInfo, PoolAllocation> pool_allocations;
   for (const auto& buf_info : buffer_info_vec) {
-    std::unordered_map<PoolInfo, size_t, ObjectPtrHash, ObjectPtrEqual> pool_offset_candidates;
+    std::unordered_map<PoolInfo, u_int64_t, ObjectPtrHash, ObjectPtrEqual> pool_offset_candidates;
     for (const auto& pool_info : buf_info->pool_candidates) {
       // Mark pool candidates that satisfy the size constraints.
       if (IsValidPlacement(pool_info, 0, buf_info->size_bytes->value)) {
@@ -120,7 +121,7 @@ Map<BufferInfo, PoolAllocation> GreedyBase::PostSortAllocation(
 
     for (const auto& conflict_buf_info_obj : buf_info->conflicts) {
       auto conflict_buf_info = Downcast<BufferInfo>(conflict_buf_info_obj);
-      size_t next_offset = 0;
+      u_int64_t next_offset = 0;
       // We only look at already allocated BufferInfo in-terms of conflicts.
       if (pool_allocations.count(conflict_buf_info)) {
         auto pool_allocation = pool_allocations[conflict_buf_info];

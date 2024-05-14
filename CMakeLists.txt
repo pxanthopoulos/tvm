@@ -613,7 +613,7 @@ if(NOT BUILD_DUMMY_LIBTVM)
 else()
   # dummy version of libtvm that can be used by downstream to specify dependencies
   # the real runner still need a full version of libtvm
-  add_library(tvm SHARED
+  add_library(tvm STATIC
     $<TARGET_OBJECTS:tvm_runtime_objs>
     $<TARGET_OBJECTS:tvm_libinfo_objs>
     ${TVM_RUNTIME_EXT_OBJS}

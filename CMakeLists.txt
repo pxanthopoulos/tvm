@@ -603,7 +603,7 @@ add_library(tvm_libinfo_objs OBJECT ${LIBINFO_FILE})
 
 include(GNUInstallDirs)
 if(NOT BUILD_DUMMY_LIBTVM)
-  add_library(tvm SHARED
+  add_library(tvm STATIC
     $<TARGET_OBJECTS:tvm_objs>
     $<TARGET_OBJECTS:tvm_runtime_objs>
     $<TARGET_OBJECTS:tvm_libinfo_objs>
@@ -613,7 +613,7 @@ if(NOT BUILD_DUMMY_LIBTVM)
 else()
   # dummy version of libtvm that can be used by downstream to specify dependencies
   # the real runner still need a full version of libtvm
-  add_library(tvm STATIC
+  add_library(tvm SHARED
     $<TARGET_OBJECTS:tvm_runtime_objs>
     $<TARGET_OBJECTS:tvm_libinfo_objs>
     ${TVM_RUNTIME_EXT_OBJS}
